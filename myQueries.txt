@@ -70,16 +70,20 @@ WHERE `surname` LIKE '%ini';
 Quanti insegnanti hanno un telefono che finisce in 927 o contiene 279?
 
 SELECT * FROM `teachers`
-WHERE `phone` LIKE '%927' OR `phone` LIKE '%279%';
+WHERE `phone` LIKE '%927' OR (REPLACE(`phone`,' ','')) LIKE '%279%';
 
 Quanti studenti hanno sostenuto l’esame con id=1?
 
-
+SELECT COUNT(`exam_id`) AS `numero_di_studenti_esame_1`
+FROM `exam_student`
+WHERE `exam_id` = 1;
 
 Quali esami sono stati sostenuti il 2020-09-04 e il 2020-02-07 tra le 14.00 e le 18.00 ?
 
-
+SELECT * FROM `exams`
+WHERE `date` BETWEEN '2020-02-07' AND '2020-09-04' AND `hour` BETWEEN '14:00' AND '18:00';
 
 Quali dipartimenti rispondono telefonicamente dall’Italia?
 
-
+SELECT * FROM `departments`
+WHERE `phone` LIKE '+39%';
