@@ -87,3 +87,19 @@ Quali dipartimenti rispondono telefonicamente dall’Italia?
 
 SELECT * FROM `departments`
 WHERE `phone` LIKE '+39%';
+
+EXTRA 
+
+Ottenere tutti gli insegnanti che insegnano a corsi del primo anno di laurea magistrale con relativi studenti
+
+SELECT 
+      `teachers`.`id` AS `teacher_id`,`teachers`.`name` AS `teacher_name`, `teachers`.`surname` AS `teacher_surname`,
+      `students`.`id` AS `student_id`, `students`.`name` AS `student_name`, `students`.`surname` AS `student_surname`,
+      `courses`.`id` AS `course_id`,`courses`.`name` AS `course_name`, `courses`.`year` AS `course_year`,
+      `degrees`.`id` AS `degree_id`, `degrees`.`name` AS `degree_name`, `degrees`.`level` AS `degree_level`
+FROM `teachers`
+INNER JOIN `course_teacher` ON `course_teacher`.`teacher_id`= `teachers`.`id`
+INNER JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+INNER JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+INNER JOIN `students` ON `students`.`degree_id` = `degrees`.`id`
+WHERE `year` = 1 AND `level` = 'magistrale';
