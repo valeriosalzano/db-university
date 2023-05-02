@@ -59,3 +59,12 @@ JOIN `exam_student` ON `exam_student`.`student_id` = `students`.`id`
 JOIN `exams` ON `exams`.`id` = `exam_student`.`exam_id`
 JOIN `courses` ON `courses`.`id` = `exams`.`course_id`
 GROUP BY `students`.`id`, `courses`.`id`;
+
+(versione senza le righe degli esami non superati anche dopo diversi tentativi)
+SELECT `students`.`id` AS `student_id`, `students`.`registration_number`, `courses`.`id` AS `course_id`, COUNT(`exams`.`course_id`) AS `exam_attempts`
+FROM `students`
+JOIN `exam_student` ON `exam_student`.`student_id` = `students`.`id`
+JOIN `exams` ON `exams`.`id` = `exam_student`.`exam_id`
+JOIN `courses` ON `courses`.`id` = `exams`.`course_id`
+GROUP BY `students`.`id`, `courses`.`id`
+HAVING SUM(CASE WHEN `exam_student`.`vote` > 18 THEN 1 ELSE 0 END) > 0;
